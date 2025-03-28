@@ -29,7 +29,7 @@ mongoose.connection.on('connected', () => {
 
 
 app.get('/', (req, res) => {
-    res.send('Server working!');
+    res.render('index.ejs');
 });
 
 
