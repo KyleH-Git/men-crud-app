@@ -10,11 +10,13 @@
 </head>
 <body>
     <%- include('partials/header.ejs') %>
-    <%console.log(post.content)%>
-    <form action="/post/<%=post._id%>/edit/?_method=PUT" method="POST">
-        <label for="content">Edit Post:</label>
-        <input type="textarea" value="<%=post.content%>" name="content" id="content" />
-        <button class ='edit-btn' type="submit">Update</button>
-    </form>
+    <main>
+        <div class="history-header">Edit Post</div>
+        <form class="edit-form" action="/post/<%=post._id%>/edit/?_method=PUT" method="POST">
+            <label for="content">Edit Post:</label>
+            <input type="textarea" value="<%=post.content%>" name="content" id="content" />
+            <button class ='sign-btn' type="submit">Update</button>
+        </form>
+    </main>
 </body>
 </html>

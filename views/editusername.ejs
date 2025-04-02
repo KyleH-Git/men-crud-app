@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glitter</title>
+    <link rel="stylesheet" href="/css/style.css">
+        
+</head>
+<body>
+    <%- include('partials/header.ejs') %>
+    <main>
+        <div class="history-header">Edit Username</div>
+        <form class="edit-form" action="/auth/<%=accountInfo._id%>/edit/username/?_method=PUT" method="POST">
+            <label for="newUsername">New Username:</label>
+            <input type="text" name="newUsername" id="newUsername" value="<%=accountInfo.username%>"/>
+            <button class="sign-btn" type="submit">Update</button>
+        </form>
+    </main>
+</body>
+</html>

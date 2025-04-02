@@ -12,7 +12,15 @@
     <%- include('partials/header.ejs') %>
     <main>
     <div id="content">
-        <%- include('partials/post-history.ejs') %>
+        <div class="history-header">Recent Gleets</div>
+        <%if(posts !== undefined) { %>
+            <%for(post of posts) {%>
+                <div class="gleet-container">
+                    <div class="gleet-title"><%=post.author.username.toString()%> <span class="account-name">@<%=post.author.accountName%></span></div>
+                    <div class="gleet-content"><%=post.content%></div>
+                </div>
+                <% } %>
+        <% } %>
     </div>
     </main>
     </body>

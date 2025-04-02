@@ -4,6 +4,12 @@ const Account = require("../models/account.js");
 const Post = require('../models/post.js');
 const bcrypt = require("bcrypt");
 
+router.get('/sign-in', (req, res) => {
+    res.render('sign-in.ejs', {
+        accountInfo: req.session.user
+    });
+})
+
 router.post('/sign-in', async(req, res) => {
     const accountExists = await Account.findOne({ accountName: req.body.accountName})
     if(!accountExists) {
@@ -24,10 +30,17 @@ router.post('/sign-in', async(req, res) => {
     req.session.user = {
         username: accountExists.username,
         _id: accountExists._id,
+        accountname: accountExists.accountName,
     }
 
     res.redirect('/');
 });
+
+router.get('/sign-up', (req, res) => {
+    res.render('sign-up.ejs',{
+        accountInfo: req.session.user
+    });
+})
 
 router.post('/sign-up', async (req, res) => {
     const accountExists = await Account.findOne({ accountName: req.body.accountName});
@@ -56,11 +69,12 @@ router.post('/sign-up', async (req, res) => {
         req.session.user = {
             username: account.username,
             _id: account._id,
+            accountname: account.accountName,
         }
         console.log('saved sessionid')
-        res.redirect('/auth/profile');
+        res.redirect('/');
     } catch (err) {
-        res.redirect('/auth/profile');
+        res.redirect('/');
     }
    
 });
@@ -71,9 +85,15 @@ router.get('/sign-out', (req, res) => {
 });
 
 router.get('/profile', async(req, res) =>{
-    const posts = await Post.find().populate('author', 'id').exec(); 
+    const posts = await Post.find().populate('author').exec(); 
     res.render('profile.ejs', {
         posts: posts,
+        accountInfo: req.session.user
+    });
+});
+
+router.get('/:accountId/edit/username', (req, res) => {
+    res.render('editusername.ejs', {
         accountInfo: req.session.user
     });
 });
@@ -85,8 +105,13 @@ router.put('/:accountId/edit/username', async (req, res) => {
     res.redirect('/auth/profile');
 });
 
-router.put('/:accountId/edit/password', async (req, res) => {
+router.get('/:accountId/edit/password', (req, res) => {
+    res.render('editpassword.ejs', {
+        accountInfo: req.session.user
+    });
+});
 
+router.put('/:accountId/edit/password', async (req, res) => {
     if(req.body.newPassword !== req.body.confirmPassword){
         return res.redirect('/auth/profile');
     }
@@ -96,64 +121,5 @@ router.put('/:accountId/edit/password', async (req, res) => {
     res.redirect('/auth/profile');
 });
 
-router.post('/profile-sign-up', async (req, res) => {
-    const accountExists = await Account.findOne({ accountName: req.body.accountName});
-    console.log(accountExists)
-    if(accountExists){
-        return res.redirect('/auth/profile');
-    }
-
-    console.log('passwordcheck')
-    if(req.body.password !== req.body.confirmPassword){
-        return res.redirect('/auth/profile');
-    }
-
-    console.log('hashing password')
-    const hashedPassword = bcrypt.hashSync(req.body.password, 10);
-
-    try{
-        const account = await Account.create({
-            accountName: req.body.accountName,
-            password: hashedPassword,
-            username: req.body.accountName});
-        console.log('made user')
-    
-    
-        req.session.user = {
-            username: account.username,
-            _id: account._id,
-        }
-        console.log('saved sessionid')
-        res.redirect('/auth/profile');
-    } catch (err) {
-        res.redirect('/auth/profile');
-    }
-   
-});
-
-router.post('/profile-sign-in', async(req, res) => {
-    const accountExists = await Account.findOne({ accountName: req.body.accountName})
-    if(!accountExists) {
-        return res.redirect('/auth/profile');
-    }
-
-    console.log(accountExists)
-    const validPassword = bcrypt.compareSync(
-        req.body.password,
-        accountExists.password
-    );
-    
-    console.log('afer pass check')
-    if(!validPassword){
-        return res.redirect('/auth/profile');
-    }
-
-    req.session.user = {
-        username: accountExists.username,
-        _id: accountExists._id,
-    }
-
-    res.redirect('/auth/profile');
-});
 
 module.exports = router;

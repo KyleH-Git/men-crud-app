@@ -1,15 +1,18 @@
 <header>
-    <h1>Glitter clone!</h1>
-    <nav>
-        <p><a href="/">Home</a></p>
-        <p><a>Explore</a></p>
-        <p><a href="/auth/profile">Profile</a></p>
-        <p><a href="/post/new">Post</a></p>
-    </nav>
-
-    <%if(accountInfo === undefined){ %>
-        <%- include('./account-form.ejs') %>
-    <% } else { %>
-        <%- include('./logout-form.ejs') %>
-    <% } %>
+    <div class="header-top">
+        <h1><a href="/">Glitter</a></h1>
+        <nav>
+            <p><a href="/">Home</a></p>
+            <p><a>Explore</a></p>
+            <p><a href="/auth/profile">Profile</a></p>
+            <p><a href="/post/new">Post</a></p>
+        </nav>
+    </div>
+    <div class="header-bottom" id="header-bottom">
+        <%if(accountInfo === undefined){ %>
+            <%- include('./account-form.ejs') %>
+        <% } else { %>
+            <%- include('./logout-form.ejs') %>
+        <% } %>
+    </div>
 </header>

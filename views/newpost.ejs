@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glitter</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script defer src="/js/newpost.js"></script>
         
 </head>
 <body>
     <%- include('partials/header.ejs') %>
-    <form id="new-gleet" action="/post/new-gleet" method="POST">
-        <label for="content">New Gleet:</label>
-        <input type="text" name="content" id="newGleet" />
-        <input type="text" class="hidden" name="_id" value="<%=accountInfo._id%>" />
-        <button type="submit" id="newGleet-btn">Gleet</button>
-    </form>
+    <main>
+        <div class="history-header"><%=accountInfo.accountname%>'s Gleet</div>
+        <form id="new-gleet" action="/post/new-gleet" method="POST">
+            <label for="content">New Gleet:</label>
+            <input type="text" name="content" id="newGleet" />
+            <input type="text" class="hidden" name="_id" value="<%=accountInfo._id%>" />
+            <button type="submit" class="sign-btn" id="newGleet-btn">Gleet</button>
+        </form>
+    </main>
 </body>
 </html>

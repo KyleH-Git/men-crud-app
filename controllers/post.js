@@ -17,12 +17,10 @@ router.get('/new', async(req, res) =>{
             accountInfo: req.session.user
         })
     }
-
-    
 });
 
 router.get('/home', async(req, res) => {
-    const posts = await Post.find().populate('author', 'id').exec();
+    const posts = await Post.find().populate('author').exec();
     res.render('index.ejs', {
         posts: posts,
         accountInfo: req.session.user
@@ -59,7 +57,7 @@ const update = async( req, res) => {
 
 router.delete('/:postId', async (req, res) => {
     await Post.findByIdAndDelete(req.params.postId)
-    res.redirect('/post/home')
+    res.redirect('/auth/profile');
 });
 
 const destroy = async( req, res) => {

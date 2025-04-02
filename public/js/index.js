@@ -1,4 +1,4 @@
-const accountDivElement = document.querySelector('#account-div');
+const accountDivElement = document.querySelector('#header-bottom');
 const signUpBtn = document.querySelector('#sign-up');
 const signInBtn = document.querySelector('#sign-in');
 const signUpFormElement = document.querySelector('#signUp-form');
