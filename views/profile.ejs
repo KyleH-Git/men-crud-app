@@ -39,23 +39,25 @@
             </form>
         <% } else { %>
             edit username
-            <form action="/auth/<%=accountInfo._id%>/edit/username?_method=PUT" method="PUT">
+            <form action="/auth/<%=accountInfo._id%>/edit/username/?_method=PUT" method="POST">
                 <label for="newUsername">New Username:</label>
-                <input type="text" name="newUsername" id="newUsername" />
-                <button type="submit">Submit</button>
+                <input type="text" name="newUsername" id="newUsername" value="<%=accountInfo.username%>"/>
+                <button type="submit">Update</button>
             </form>
 
             edit password 
-            <form action="/auth/<%=accountInfo._id%>/edit/password?_method=PUT" method="PUT">
+            <form action="/auth/<%=accountInfo._id%>/edit/password/?_method=PUT" method="POST">
                 <label for="newPassword">New Password:</label>
                 <input type="text" name="newPassword" id="newPassword" />
-                <button type="submit">Submit</button>
                 <label for="confirmPassword">Confirm Password:</label>
                 <input type="text" name="confirmPassword" id="confirmPassword" />
-                <button type="submit">Submit</button>
+                <button type="submit">Update</button>
             </form>
             gleet history
-            <%if(posts !== undefined) { %>
+            <%console.log(posts)%>
+            <%if(posts === undefined){ %>
+                <p> make some posts!</p>
+            <% } else { %>
                 <%for(post of posts) {%>
                     <%console.log(post)%>
                     <%if(accountInfo._id === post.author._id.toString()){ %>
@@ -64,7 +66,7 @@
                             <form action="/post/<%=post._id%>/edit" method="GET">
                                 <button class ='edit-btn' type="submit">Edit</button>
                             </form>
-                            <form action="/post/<%=post._id%>?_method=DELETE" method="POST">
+                            <form action="/post/<%=post._id%>/?_method=DELETE" method="DELETE">
                                 <button class='delete-btn' type="submit">Delete</button>
                             </form>
                         </div>

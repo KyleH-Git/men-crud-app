@@ -22,7 +22,7 @@ router.post('/sign-in', async(req, res) => {
     }
 
     req.session.user = {
-        username: accountExists.accountName,
+        username: accountExists.username,
         _id: accountExists._id,
     }
 
@@ -46,18 +46,21 @@ router.post('/sign-up', async (req, res) => {
     req.body.password = hashedPassword;
 
     try{
-        const account = await Account.create(req.body);
+        const account = await Account.create({
+            accountName: req.body.accountName,
+            password: hashedPassword,
+            username: req.body.accountName});
         console.log('made user')
     
     
         req.session.user = {
-            username: account.accountName,
+            username: account.username,
             _id: account._id,
         }
         console.log('saved sessionid')
-        res.redirect('/');
+        res.redirect('/auth/profile');
     } catch (err) {
-        res.redirect('/');
+        res.redirect('/auth/profile');
     }
    
 });
@@ -75,6 +78,24 @@ router.get('/profile', async(req, res) =>{
     });
 });
 
+router.put('/:accountId/edit/username', async (req, res) => {
+    const account = await Account.findByIdAndUpdate(req.params.accountId, {username: req.body.newUsername}, {new: true});
+    console.log(account);
+    req.session.user.username = account.username;
+    res.redirect('/auth/profile');
+});
+
+router.put('/:accountId/edit/password', async (req, res) => {
+
+    if(req.body.newPassword !== req.body.confirmPassword){
+        return res.redirect('/auth/profile');
+    }
+    const hashedPassword = bcrypt.hashSync(req.body.newPassword, 10);
+
+    await Account.findByIdAndUpdate(req.params.accountId, {password: hashedPassword});
+    res.redirect('/auth/profile');
+});
+
 router.post('/profile-sign-up', async (req, res) => {
     const accountExists = await Account.findOne({ accountName: req.body.accountName});
     console.log(accountExists)
@@ -89,15 +110,17 @@ router.post('/profile-sign-up', async (req, res) => {
 
     console.log('hashing password')
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
-    req.body.password = hashedPassword;
 
     try{
-        const account = await Account.create(req.body);
+        const account = await Account.create({
+            accountName: req.body.accountName,
+            password: hashedPassword,
+            username: req.body.accountName});
         console.log('made user')
     
     
         req.session.user = {
-            username: account.accountName,
+            username: account.username,
             _id: account._id,
         }
         console.log('saved sessionid')
@@ -126,7 +149,7 @@ router.post('/profile-sign-in', async(req, res) => {
     }
 
     req.session.user = {
-        username: accountExists.accountName,
+        username: accountExists.username,
         _id: accountExists._id,
     }
 
