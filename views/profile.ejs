@@ -26,7 +26,7 @@
         <% } else { %>
             <div class="history-header"><%=accountInfo.accountname%>'s Profile</div>
             <div class="content">
-                <div class="profile-form">Username: <%=accountInfo.accountname%>
+                <div class="profile-form">Username: <%=accountInfo.username%>
                     <form action="/auth/<%=accountInfo._id%>/edit/username" method="GET">
                         <button class ='edit-btn' type="submit">Edit</button>
                     </form>
