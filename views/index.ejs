@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glitter</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script defer src="/js/script.js"></script>
+    <script defer src="/js/index.js"></script>
         
 </head>
 <body>
-    <h1>Glitter clone!</h1>
-</body>
+    <%- include('partials/header.ejs') %>
+    <main>
+    <div id="content">
+        <%- include('partials/post-history.ejs') %>
+    </div>
+    </main>
+    </body>
 </html>

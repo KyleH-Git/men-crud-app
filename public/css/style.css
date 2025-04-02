@@ -4,3 +4,7 @@
     background-color: rgb(40, 40, 43);
     color: white;
 }
+
+.hidden{
+    display: none;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glitter</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script defer src="/js/profile.js"></script>
+</head>
+<body>
+    <%- include('partials/header.ejs') %>
+    <main>
+        <%if(accountInfo === undefined) { %>
+            Please sign in to access profile information!
+            <div id="account-profile-div">
+                <button class="sign-up-btn" id="sign-profile-up">Sign-Up</button>
+                <span> or </span>
+                <button class="sign-in-btn" id="sign-profile-in">Sign-In</button>
+            </div>
+            
+            <form class="hidden account-profile-form" id="signIn-profile-form" action="/auth/profile-sign-in" method="POST" >
+                <label for="accountName">Account Name:</label>
+                <input type="text" name="accountName" id="accountName" />
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" />
+                <button type="submit" class="sign-in-btn">Sign in</button> 
+                <button class="cancel-acc-btn">Cancel</button>
+            </form>
+            
+            <form class="hidden account-profile-form" id="signUp-profile-form" action="/auth/profile-sign-up" method="POST">
+                <label for="accountName">Account Name:</label>
+                <input type="text" name="accountName" id="accountName" />
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" />
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" />
+                <button type="submit" class="sign-up-btn">Sign up</button>
+                <button class="cancel-acc-btn">Cancel</button>
+            </form>
+        <% } else { %>
+            edit username
+            <form action="/auth/<%=accountInfo._id%>/edit/username?_method=PUT" method="PUT">
+                <label for="newUsername">New Username:</label>
+                <input type="text" name="newUsername" id="newUsername" />
+                <button type="submit">Submit</button>
+            </form>
+
+            edit password 
+            <form action="/auth/<%=accountInfo._id%>/edit/password?_method=PUT" method="PUT">
+                <label for="newPassword">New Password:</label>
+                <input type="text" name="newPassword" id="newPassword" />
+                <button type="submit">Submit</button>
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="text" name="confirmPassword" id="confirmPassword" />
+                <button type="submit">Submit</button>
+            </form>
+            gleet history
+            <%if(posts !== undefined) { %>
+                <%for(post of posts) {%>
+                    <%console.log(post)%>
+                    <%if(accountInfo._id === post.author._id.toString()){ %>
+                    <p><%=post.content%></p>
+                        <div class="function">
+                            <form action="/post/<%=post._id%>/edit" method="GET">
+                                <button class ='edit-btn' type="submit">Edit</button>
+                            </form>
+                            <form action="/post/<%=post._id%>?_method=DELETE" method="POST">
+                                <button class='delete-btn' type="submit">Delete</button>
+                            </form>
+                        </div>
+                    <% } %>
+                <% } %>
+            <% } %>
+        <% } %>
+    </main>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<div id="account-div">
+    <button class="sign-up-btn" id="sign-up">Sign-Up</button>
+    <span> or </span>
+    <button class="sign-in-btn" id="sign-in">Sign-In</button>
+</div>
+
+<form class="hidden account-form" id="signIn-form" action="/auth/sign-in" method="POST" >
+    <label for="accountName">Account Name:</label>
+    <input type="text" name="accountName" id="accountName" />
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" />
+    <button type="submit" class="sign-in-btn">Sign in</button> 
+    <button class="cancel-acc-btn">Cancel</button>
+</form>
+
+<form class="hidden account-form" id="signUp-form" action="/auth/sign-up" method="POST">
+    <label for="accountName">Account Name:</label>
+    <input type="text" name="accountName" id="accountName" />
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" />
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" name="confirmPassword" id="confirmPassword" />
+    <button type="submit" class="sign-up-btn">Sign up</button>
+    <button class="cancel-acc-btn">Cancel</button>
+</form>
